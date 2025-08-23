@@ -12,8 +12,8 @@
 	"antiInbox": false,
 	"language": "en",
 	"notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
-	"nickNameBot": "ᗷOT Kᑌᑎ",
-	"prefix": "#",
+	"nickNameBot": "Bot name",
+	"prefix": "/",
 	"adminOnly": {
 		"enable": false,
 		"ignoreCommand": []
@@ -25,14 +25,14 @@
 		"notes": "if you enable this feature, only the ids in the whiteListIds list can use the bot"
 	},
 	"whiteListModeThread": {
-		"enable": true,
+		"enable": false,
 		"whiteListThreadIds": ["9311462368887583","7898494176933427","29972797222365949","9870658263027223","6542391465853509","9577576372322277"],
 		"notes": "if you enable this feature, only the thread in the whiteListThreadIds list can use the bot",
 		"how_it_work": "if you enable both whiteListMode and whiteListModeThread, the system will check if the user is in whiteListIds, then check if the thread is in whiteListThreadIds, if one of the conditions is true, the user can use the bot"
 	},
 	"database": {
 		"type": "mongodb",
-		"uriMongodb": "mongodb+srv://iamotaku99999:Arafat999+@cluster0.zae25r0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+		"uriMongodb": "",
 		"autoSyncWhenStart": false,
 		"autoRefreshThreadInfoFirstTime": true,
 		"notes": "(1) type selects 'json' or 'sqlite' or 'mongodb'. If you choose mongodb, enter uri connect mongodb in the uriMongodb section, instructions to get uri connect mongodb at: https://youtu.be/z1f9urHW5xY. I recommend using 'mongodb' or 'sqlite', json is not recommended because it is not stable. (2) when you set autoSyncWhenStart to true, the bot will automatically synchronize the data in the database when starting the bot, this will make the bot start slower. (3) when you set autoRefreshThreadInfoFirstTime to true, the bot will automatically refresh the thread information when get first message from the thread since starting the bot"
@@ -40,15 +40,15 @@
 	"timeZone": "Asia/Dhaka",
 	"credentials": {
 		"gmailAccount": {
-			"email": "iamotaku99999@gmail.com",
-			"clientId": "376547339828-jvaphg7goo2bibu4suvmk62nj0v093kl.apps.googleusercontent.com",
-			"clientSecret": "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",
-			"refreshToken": "1//04IEfkih4cLkYCgYIARAAGAQSNwF-L9IrXk5qPfp1HAtWLwP5cDM5P_o33HBNGOrbPRN0E65iysYzZ42DoVJynzMIXuojPXbrOTU",
+			"email": "fariasdipto@gmail.com",
+			"clientId": "356551796908-109qeba7nv0e30u2c7o22gr9podqsiim.apps.googleusercontent.com",
+			"clientSecret": "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",
+			"refreshToken": "1//04otrr7tUfUAFCgYIARAAGAQSNwF-L9IrnanDeaer7kPniPX_EdWPKNnf4_z7ONCUcR5Jp6_kcSXWKAND0inf-n1Yv1LRryIKNhY",
 			"apiKey": ""
 		},
 		"gRecaptcha": {
-			"siteKey": "6LfsE1orAAAAAD87OvrOaIRNqym6bahQTaRkRRBa",
-			"secretKey": "6LfsE1orAAAAAJDCQYKtSSY1eWCN4ijo4TnR-NEA"
+			"siteKey": "",
+			"secretKey": ""
 		}
 	},
 	"dashBoard": {
