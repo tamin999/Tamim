@@ -139,12 +139,12 @@ function startProject() {
 
   child.stdout.on("data", (data) => {
     const msg = data.toString().trim();
-    console.log("[Goat.js]", msg);
+    console.log("[Arafat.js]", msg);
   });
 
   child.stderr.on("data", (data) => {
     const err = data.toString().trim();
-    console.log("[Goat.js ERROR]", err);
+    console.log("[Arafat.js ERROR 😹👍🏻]", err);
   });
 
   child.on("close", (code) => {
@@ -156,7 +156,7 @@ function startProject() {
   });
 
   child.on("error", (err) => {
-    console.log("[ERROR] Failed to start Goat.js:", err.message);
+    console.log("[ERROR] Failed to start Arafat.js:", err.message);
   });
 }
 
