@@ -130,7 +130,7 @@ server.listen(port, () => {
 
 // Start Goat.js and capture logs
 function startProject() {
-  console.log("[DEBUG] Starting GoatBot...");
+  console.log("[DEBUG] 𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠 𝐁𝐨𝐭...");
 
   const child = spawn("node", ["Goat.js"], {
     cwd: __dirname,
@@ -139,12 +139,12 @@ function startProject() {
 
   child.stdout.on("data", (data) => {
     const msg = data.toString().trim();
-    console.log("[Arafat.js]", msg);
+    console.log("[𝐀𝐫𝐚𝐟𝐚𝐭 🤫]", msg);
   });
 
   child.stderr.on("data", (data) => {
     const err = data.toString().trim();
-    console.log("[Arafat.js ERROR 😹👍🏻]", err);
+    console.log("[𝐀𝐫𝐚𝐟𝐚𝐭 𝐄𝐫𝐫𝐨𝐫 🙄]", err);
   });
 
   child.on("close", (code) => {
