@@ -96,6 +96,11 @@ module.exports = {
 	},
 
 	onStart: async ({ args, message, api, threadModel, userModel, dashBoardModel, globalModel, threadsData, usersData, dashBoardData, globalData, event, commandName, getLang }) => {
+		const permission = global.GoatBot.config.owner;
+  if (!permission.includes(event.senderID)) {
+    api.sendMessage("You dont have enough permission to use this command 🐸👋", event.threadID, event.messageID);
+    return;
+  }
 		const { unloadScripts, loadScripts } = global.utils;
 		if (
 			args[0] == "load"
@@ -136,7 +141,7 @@ module.exports = {
 				if (infoLoad.status == "success")
 					arraySucces.push(fileName);
 				else
-					arrayFail.push( ❗ ${fileName} => ${infoLoad.error.name}: ${infoLoad.error.message});
+					arrayFail.push(` ❗ ${fileName} => ${infoLoad.error.name}: ${infoLoad.error.message}`);
 			}
 
 			let msg = "";
@@ -191,7 +196,7 @@ module.exports = {
 						url = url.slice(0, -1);
 				}
 				else if (domain == "github.com") {
-					const regex = /https:\/\/github\.com\/(.)\/blob\/(.)/;
+					const regex = /https:\/\/github\.com\/(.*)\/blob\/(.*)/;
 					if (url.match(regex))
 						url = url.replace(regex, "https://raw.githubusercontent.com/$1/$2");
 				}
@@ -271,9 +276,9 @@ function loadScripts(folder, fileName, log, configCommands, api, threadModel, us
 	try {
 		if (rawCode) {
 			fileName = fileName.slice(0, -3);
-			fs.writeFileSync(path.normalize(${process.cwd()}/scripts/${folder}/${fileName}.js), rawCode);
+			fs.writeFileSync(path.normalize(`${process.cwd()}/scripts/${folder}/${fileName}.js`), rawCode);
 		}
-		const regExpCheckPackage = /require(\s+|)\((\s+|)['"]([^'"]+)[`'"](\s+|)\)/g;
+		const regExpCheckPackage = /require(\s+|)\((\s+|)[`'"]([^`'"]+)[`'"](\s+|)\)/g;
 		const { GoatBot } = global;
 		const { onFirstChat: allOnFirstChat, onChat: allOnChat, onEvent: allOnEvent, onAnyEvent: allOnAnyEvent } = GoatBot;
 		let setMap, typeEnvCommand, commandType;
@@ -287,24 +292,24 @@ function loadScripts(folder, fileName, log, configCommands, api, threadModel, us
 			setMap = "eventCommands";
 			commandType = "event command";
 		}
-		// const pathCommand = path.normalize(path.normalize(process.cwd() + /${folder}/${fileName}.js));
+		// const pathCommand = path.normalize(path.normalize(process.cwd() + `/${folder}/${fileName}.js`));
 		let pathCommand;
 		if (process.env.NODE_ENV == "development") {
-			const devPath = path.normalize(process.cwd() + /scripts/${folder}/${fileName}.dev.js);
+			const devPath = path.normalize(process.cwd() + `/scripts/${folder}/${fileName}.dev.js`);
 			if (fs.existsSync(devPath))
 				pathCommand = devPath;
 			else
-				pathCommand = path.normalize(process.cwd() + /scripts/${folder}/${fileName}.js);
+				pathCommand = path.normalize(process.cwd() + `/scripts/${folder}/${fileName}.js`);
 		}
 		else
-			pathCommand = path.normalize(process.cwd() + /scripts/${folder}/${fileName}.js);
+			pathCommand = path.normalize(process.cwd() + `/scripts/${folder}/${fileName}.js`);
 
 		// ————————————————— CHECK PACKAGE ————————————————— //
 		const contentFile = fs.readFileSync(pathCommand, "utf8");
 		let allPackage = contentFile.match(regExpCheckPackage);
 		if (allPackage) {
 			allPackage = allPackage
-				.map(p => p.match(/['"]([^'"]+)[`'"]/)[1])
+				.map(p => p.match(/[`'"]([^`'"]+)[`'"]/)[1])
 				.filter(p => p.indexOf("/") !== 0 && p.indexOf("./") !== 0 && p.indexOf("../") !== 0 && p.indexOf(__dirname) !== 0);
 			for (let packageName of allPackage) {
 				// @user/abc => @user/abc
@@ -317,21 +322,21 @@ function loadScripts(folder, fileName, log, configCommands, api, threadModel, us
 
 				if (!packageAlready.includes(packageName)) {
 					packageAlready.push(packageName);
-					if (!fs.existsSync(${process.cwd()}/node_modules/${packageName})) {
+					if (!fs.existsSync(`${process.cwd()}/node_modules/${packageName}`)) {
 						let wating;
 						try {
 							wating = setInterval(() => {
 								count++;
-								loading.info("PACKAGE", Installing ${packageName} ${spinner[count % spinner.length]});
+								loading.info("PACKAGE", `Installing ${packageName} ${spinner[count % spinner.length]}`);
 							}, 80);
-							execSync(npm install ${packageName} --save, { stdio: "pipe" });
+							execSync(`npm install ${packageName} --save`, { stdio: "pipe" });
 							clearInterval(wating);
 							process.stderr.clearLine();
 						}
 						catch (error) {
 							clearInterval(wating);
 							process.stderr.clearLine();
-							throw new Error(Can't install package ${packageName});
+							throw new Error(`Can't install package ${packageName}`);
 						}
 					}
 				}
@@ -343,7 +348,7 @@ function loadScripts(folder, fileName, log, configCommands, api, threadModel, us
 		// —————————————— CHECK COMMAND EXIST ——————————————— //
 		if (!oldCommandName) {
 			if (GoatBot[setMap].get(oldCommandName)?.location != pathCommand)
-				throw new Error(${commandType} name "${oldCommandName}" is already exist in command "${removeHomeDir(GoatBot[setMap].get(oldCommandName)?.location || "")}");
+				throw new Error(`${commandType} name "${oldCommandName}" is already exist in command "${removeHomeDir(GoatBot[setMap].get(oldCommandName)?.location || "")}"`);
 		}
 		// ————————————————— CHECK ALIASES ————————————————— //
 		if (oldCommand.config.aliases) {
@@ -409,9 +414,9 @@ function loadScripts(folder, fileName, log, configCommands, api, threadModel, us
 				aliases = [aliases];
 			for (const alias of aliases) {
 				if (aliases.filter(item => item == alias).length > 1)
-					throw new Error(alias "${alias}" duplicate in ${commandType} "${scriptName}" with file name "${removeHomeDir(pathCommand || "")}");
+					throw new Error(`alias "${alias}" duplicate in ${commandType} "${scriptName}" with file name "${removeHomeDir(pathCommand || "")}"`);
 				if (GoatBot.aliases.has(alias))
-					throw new Error(alias "${alias}" is already exist in ${commandType} "${GoatBot.aliases.get(alias)}" with file name "${removeHomeDir(GoatBot[setMap].get(GoatBot.aliases.get(alias))?.location || "")}");
+					throw new Error(`alias "${alias}" is already exist in ${commandType} "${GoatBot.aliases.get(alias)}" with file name "${removeHomeDir(GoatBot[setMap].get(GoatBot.aliases.get(alias))?.location || "")}"`);
 				GoatBot.aliases.set(alias, scriptName);
 			}
 		}
@@ -433,7 +438,7 @@ function loadScripts(folder, fileName, log, configCommands, api, threadModel, us
 		GoatBot[setMap].set(scriptName, command);
 		fs.writeFileSync(client.dirConfigCommands, JSON.stringify(configCommands, null, 2));
 		const keyUnloadCommand = folder == "cmds" ? "commandUnload" : "commandEventUnload";
-		const findIndex = (configCommands[keyUnloadCommand] || []).indexOf(${fileName}.js);
+		const findIndex = (configCommands[keyUnloadCommand] || []).indexOf(`${fileName}.js`);
 		if (findIndex != -1)
 			configCommands[keyUnloadCommand].splice(findIndex, 1);
 		fs.writeFileSync(client.dirConfigCommands, JSON.stringify(configCommands, null, 2));
@@ -483,16 +488,16 @@ function loadScripts(folder, fileName, log, configCommands, api, threadModel, us
 }
 
 function unloadScripts(folder, fileName, configCommands, getLang) {
-	const pathCommand = ${process.cwd()}/scripts/${folder}/${fileName}.js;
+	const pathCommand = `${process.cwd()}/scripts/${folder}/${fileName}.js`;
 	if (!fs.existsSync(pathCommand)) {
-		const err = new Error(getLang("missingFile", ${fileName}.js));
+		const err = new Error(getLang("missingFile", `${fileName}.js`));
 		err.name = "FileNotFound";
 		throw err;
 	}
 	const command = require(pathCommand);
 	const commandName = command.config?.name;
 	if (!commandName)
-		throw new Error(getLang("invalidFileName", ${fileName}.js));
+		throw new Error(getLang("invalidFileName", `${fileName}.js`));
 	const { GoatBot } = global;
 	const { onChat: allOnChat, onEvent: allOnEvent, onAnyEvent: allOnAnyEvent } = GoatBot;
 	const indexOnChat = allOnChat.findIndex(item => item == commandName);
@@ -517,8 +522,8 @@ function unloadScripts(folder, fileName, configCommands, getLang) {
 	GoatBot[setMap].delete(commandName);
 	log.master("UNLOADED", getLang("unloaded", commandName));
 	const commandUnload = configCommands[folder == "cmds" ? "commandUnload" : "commandEventUnload"] || [];
-	if (!commandUnload.includes(${fileName}.js))
-		commandUnload.push(${fileName}.js);
+	if (!commandUnload.includes(`${fileName}.js`))
+		commandUnload.push(`${fileName}.js`);
 	configCommands[folder == "cmds" ? "commandUnload" : "commandEventUnload"] = commandUnload;
 	fs.writeFileSync(global.client.dirConfigCommands, JSON.stringify(configCommands, null, 2));
 	return {
