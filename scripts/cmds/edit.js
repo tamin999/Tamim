@@ -6,7 +6,7 @@ module.exports = {
 config: {
 name: "edit",
 version: "1.0",
-author: "",
+author: "Tamim",
 countDown: 5,
 role: 0,
 shortDescription: { en: "Edit image using prompt" },
