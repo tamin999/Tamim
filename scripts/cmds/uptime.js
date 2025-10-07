@@ -81,7 +81,7 @@ module.exports = {
 
     // Send final image
     await message.reply({
-      body: `𝐁𝐎𝐓 𝐒𝐓𝐀𝐓𝐔𝐒\n• 💤 𝐔𝐩𝐭𝐢𝐦𝐞 : ${uptimeStr}\n• ⚡ 𝐏𝐢𝐧𝐠 : ${ping} ms\n• 👑 𝐎𝐰𝐧𝐞𝐫 : Azad`,
+      body: `𝐁𝐎𝐓 𝐒𝐓𝐀𝐓𝐔𝐒\n• 💤 𝐔𝐩𝐭𝐢𝐦𝐞 : ${uptimeStr}\n• ⚡ 𝐏𝐢𝐧𝐠 : ${ping} ms\n• 👑 𝐎𝐰𝐧𝐞𝐫 : Tamim`,
       attachment: fs.createReadStream(filePath)
     });
 
