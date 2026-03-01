@@ -63,7 +63,7 @@ module.exports = {
 `;
 
     // Image URL  
-    const imageUrl = "https://files.catbox.moe/z497dn.png";  
+    const imageUrl = "https://i.ibb.co/xK4PQQBs/f08e1019fa63.gi";  
     const imagePath = path.join(__dirname, "cache", "owner.jpg");  
 
     try {  
