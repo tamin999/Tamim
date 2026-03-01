@@ -24,7 +24,7 @@ module.exports = {
     const ownerInfo = {  
       name: "Tʌɱɩɱ Hʌwɭʌdeʀ",  
       gender: "𝙼𝚊𝚕𝚎",  
-      bio: " 🌷",  
+      bio: " HINATA🌷",  
       nick: "Tʌɱɩɱ",  
       hobby: "gaming",  
       from: "Dhaka,Bangladesh",  
@@ -63,7 +63,7 @@ module.exports = {
 `;
 
     // Image URL  
-    const imageUrl = "https://files.catbox.moe/12n172.jpg";  
+    const imageUrl = "https://files.catbox.moe/z497dn.png";  
     const imagePath = path.join(__dirname, "cache", "owner.jpg");  
 
     try {  
